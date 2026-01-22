@@ -3,6 +3,7 @@
 
 // === Includes ===
 #include <stddef.h>
+#include <stdlib.h>
 #include <sys/types.h>
 
 typedef struct s_list {
@@ -20,6 +21,6 @@ char *ft_strdup(const char *s);
 
 // === Bonus ===
 int ft_atoi_base(char *str, char *base);
-// void ft_list_push_front(t_list **begin_list, void *data);
+void ft_list_push_front(t_list **begin_list, void *data);
 
 #endif

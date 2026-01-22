@@ -15,40 +15,51 @@
 ; - The caller can assume they'll survive the function call unchanged
 
 section .text
-   extern malloc
+    extern malloc
     global ft_strdup
 
 ft_strdup:
-    mov r12, rdi    ; Use r12 to save pointer to avoid overwriting
-    xor rcx, rcx
-   jmp .len
+    push    r12             ; Save callee-saved registers
+    push    rbx
+    sub     rsp, 8          ; Align stack (2 pushes = 16 bytes, need 8 more)
+    
+    mov     r12, rdi        ; Save original pointer
+    xor     rcx, rcx        ; Length counter
+    jmp     .len
 
 .len:
-    cmp [rdi], 0
-    je .malloc
-    inc rdi
-    inc rcx
-    jmp .len
+    cmp     byte [rdi], 0   ; Check for null terminator
+    je      .malloc
+    inc     rdi
+    inc     rcx
+    jmp     .len
 
 .malloc:
-   mov rdi, rcx
-   inc rdi
-   call malloc WRT ..plt
-    mov r9, rax       ; save for return
-    mov r8, rax       ; initialize for copying
-   jmp .loop
+    mov     rdi, rcx
+    inc     rdi             ; len + 1 for null terminator
+    call    malloc WRT ..plt
+    test    rax, rax        ; Check if malloc failed
+    jz      .cleanup        ; Return NULL if malloc failed
+    
+    mov     r8, rax         ; Destination pointer for copying
+    jmp     .loop
 
 .loop:
-    cmp rcx, 0
-    je .done
-    mov bl, [r12]
-    mov [r8], bl
-    inc r8
-    inc r12
-    dec rcx
-    jmp .loop
+    cmp     rcx, 0
+    je      .done
+    mov     bl, [r12]       ; Now safe to use bl
+    mov     [r8], bl
+    inc     r8
+    inc     r12
+    dec     rcx
+    jmp     .loop
 
 .done:
-    mov [r8], byte 0
-    mov rax, r9
-    ret 
+    mov     byte [r8], 0    ; Null terminate
+    ; rax already contains the malloc'd pointer
+
+.cleanup:
+    add     rsp, 8          ; Restore stack
+    pop     rbx
+    pop     r12
+    ret

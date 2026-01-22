@@ -22,12 +22,12 @@ ASM_FLAGS := -f elf64
 
 # Assembly files
 FILES := ft_strlen ft_strcpy ft_strcmp ft_write ft_read ft_strdup
-BONUS_FILES := ft_atoi_base
+BONUS_FILES := ft_atoi_base ft_list_push_front
 
 # Directories
 SRC_DIR = src/
-SRC = $(addprefix $(SRC_DIR), $(addsuffix .s, $(FILES)))
-SRC_B = $(addprefix $(SRC_DIR), $(addsuffix .s, $(BONUS_FILES)))
+SRC = $(addprefix $(SRC_DIR), $(addsuffix .asm, $(FILES)))
+SRC_B = $(addprefix $(SRC_DIR), $(addsuffix .asm, $(BONUS_FILES)))
 
 OBJ_DIR	= obj/
 OBJ = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(FILES)))
@@ -47,7 +47,7 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
 # Compile each assembly file (works for both regular and bonus)
-$(OBJ_DIR)%.o: $(SRC_DIR)%.a | $(OBJ_DIR)
+$(OBJ_DIR)%.o: $(SRC_DIR)%.asm | $(OBJ_DIR)
 	@echo -e "\n$(YELLOW)=== Compile .asm -> .o ===$(RESET)"
 	@$(ASM) $(ASM_FLAGS) $< -o $@
 	@echo -e "$(GREEN) === .o files compiled ===$(RESET)"
