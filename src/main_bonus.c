@@ -5,24 +5,16 @@
 ssize_t writer(const char *msg) { return (ft_write(1, msg, ft_strlen(msg))); }
 
 void print_list(t_list *head) {
-  printf("List: ");
   t_list *current = head;
-  while (current != NULL) {
-    printf("[%s] -> ", (char *)current->data);
+  for (size_t i = 0; current != NULL; i++) {
+    printf("Node %ld: data->%s\tnext->%p\n", i, (char *)current->data,
+           current->next);
     current = current->next;
   }
   printf("NULL\n");
 }
-
-// Helper to count nodes
-int list_size(t_list *head) {
-  int count = 0;
-  t_list *current = head;
-  while (current != NULL) {
-    count++;
-    current = current->next;
-  }
-  return count;
+int compare_strings(void *a, void *b) {
+  return ft_strcmp((char *)a, (char *)b);
 }
 
 int main() {
@@ -100,13 +92,13 @@ int main() {
   printf("Test 1: Push 'First' to empty list\n");
   ft_list_push_front(&head, "First");
   print_list(head);
-  printf("Size: %d\n\n", list_size(head));
+  printf("Size: %d\n\n", ft_list_size(head));
 
   // Test 2: Push another element
   printf("Test 2: Push 'Second' (becomes new head)\n");
   ft_list_push_front(&head, "Second");
   print_list(head);
-  printf("Size: %d\n\n", list_size(head));
+  printf("Size: %d\n\n", ft_list_size(head));
 
   // Test 3: Push more elements
   printf("Test 3: Push 'Third', 'Fourth', 'Fifth'\n");
@@ -132,10 +124,42 @@ int main() {
     position++;
   }
 
+  printf("\n === Testing ft_list_size ===\n");
+  int count = ft_list_size(head);
+  printf("List_size: %d\n", count);
+
+  printf("\n=== Testing ft_list_sort ===\n");
+  ft_list_sort(&head, (int (*)())ft_strcmp);
+  print_list(head);
+
   // Clean up (free all nodes)
   while (head != NULL) {
     t_list *temp = head;
     head = head->next;
+    free(temp);
+  }
+
+  printf("\n=== Testing ft_list_remove_if ===\n");
+  t_list *test_list = NULL;
+  ft_list_push_front(&test_list, ft_strdup("apple"));
+  ft_list_push_front(&test_list, ft_strdup("banana"));
+  ft_list_push_front(&test_list, ft_strdup("apple"));
+  ft_list_push_front(&test_list, ft_strdup("cherry"));
+  ft_list_push_front(&test_list, ft_strdup("apple"));
+
+  printf("Before remove_if:\n");
+  print_list(test_list);
+
+  // Remove all "apple" nodes
+  ft_list_remove_if(&test_list, "apple", (int (*)())ft_strcmp, free);
+
+  printf("\nAfter removing 'apple':\n");
+  print_list(test_list);
+
+  // Clean up remaining nodes
+  while (test_list != NULL) {
+    t_list *temp = test_list;
+    test_list = test_list->next;
     free(temp);
   }
 

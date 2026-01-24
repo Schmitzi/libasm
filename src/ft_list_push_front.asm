@@ -10,28 +10,27 @@ section .text
     extern malloc
     global ft_list_push_front
 
-ft_list_push_front:  ; Because malloc will clear our registers, we need to save them
-    push    r12         ; Save callee-saved register
+ft_list_push_front:
+    push    r12         ; Save callee-saved registers
     push    r13
-    sub     rsp, 8
-    mov     r12, rdi     ; Save pointer for later
-    mov     r13, rsi     ; Save data for later
+    sub     rsp, 8      ; Align stack to 16 bytes before malloc call
+    mov     r12, rdi    ; Save begin_list pointer
+    mov     r13, rsi    ; Save data pointer
 
 .malloc:
-    mov     rdi, 16            ; Mark len for 16 bytes
-    call    malloc WRT ..plt   ; Call the malloc function
-    cmp     rax, 0             ; If list == NULL
-    je      .done           ; Return NULL
+    mov     rdi, 16            ; Allocate 16 bytes (sizeof(t_list))
+    call    malloc WRT ..plt   ; Call malloc (stack is now 16-byte aligned)
+    test    rax, rax           ; Check if malloc failed
+    jz      .done              ; Return NULL if failed
 
 .create:
-    mov     [rax], r13          ; Move data pointer to rax
-    mov     rbx, [r12]          ; Get *head value
-    mov     [rax+8], rbx       ; Write to offset 8 (next field)
-    mov     [r12], rax          ; Store new node's address into *begin_list
+    mov     [rax], r13         ; new_node->data = data
+    mov     r10, [r12]         ; r10 = *begin_list (current head)
+    mov     [rax+8], r10       ; new_node->next = current head
+    mov     [r12], rax         ; *begin_list = new_node
 
 .done:
-    add     rsp, 8
-    pop     r12                 ; Restore registers
-    pop     r13
+    add     rsp, 8             ; Restore stack alignment
+    pop     r13                ; Restore in reverse order
+    pop     r12
     ret
-

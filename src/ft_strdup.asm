@@ -20,22 +20,23 @@ section .text
 
 ft_strdup:
     push    r12             ; Save callee-saved registers
+    push    r13
     push    rbx
     sub     rsp, 8          ; Align stack (2 pushes = 16 bytes, need 8 more)
     
     mov     r12, rdi        ; Save original pointer
-    xor     rcx, rcx        ; Length counter
+    xor     r13, r13        ; Length counter
     jmp     .len
 
 .len:
     cmp     byte [rdi], 0   ; Check for null terminator
     je      .malloc
     inc     rdi
-    inc     rcx
+    inc     r13
     jmp     .len
 
 .malloc:
-    mov     rdi, rcx
+    mov     rdi, r13
     inc     rdi             ; len + 1 for null terminator
     call    malloc WRT ..plt
     test    rax, rax        ; Check if malloc failed
@@ -45,13 +46,13 @@ ft_strdup:
     jmp     .loop
 
 .loop:
-    cmp     rcx, 0
+    cmp     r13, 0
     je      .done
     mov     bl, [r12]       ; Now safe to use bl
     mov     [r8], bl
     inc     r8
     inc     r12
-    dec     rcx
+    dec     r13
     jmp     .loop
 
 .done:
@@ -61,5 +62,6 @@ ft_strdup:
 .cleanup:
     add     rsp, 8          ; Restore stack
     pop     rbx
+    pop     r13
     pop     r12
     ret

@@ -22,7 +22,7 @@ ASM_FLAGS := -f elf64
 
 # Assembly files
 FILES := ft_strlen ft_strcpy ft_strcmp ft_write ft_read ft_strdup
-BONUS_FILES := ft_atoi_base ft_list_push_front
+BONUS_FILES := ft_atoi_base ft_list_push_front ft_list_size ft_list_sort ft_list_remove_if
 
 # Directories
 SRC_DIR = src/
