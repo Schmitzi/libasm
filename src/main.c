@@ -55,6 +55,6 @@ int main() {
 
   printf("\n=== Testing ft_strdup ===\n");
   char *duped = ft_strdup(msg);
-  printf("Output: %s", duped);
+  printf("Output: %s\n", duped);
   free(duped);
 }

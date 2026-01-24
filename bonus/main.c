@@ -11,8 +11,6 @@ void print_list(t_list *head) {
   }
 }
 
-void prnt_header() {}
-
 int main() {
   printf(" _ _ _\n");
   printf("| (_) |\n");
@@ -164,6 +162,7 @@ int main() {
   while (test_list != NULL) {
     t_list *temp = test_list;
     test_list = test_list->next;
+    free(temp->data);
     free(temp);
   }
 
