@@ -2,47 +2,59 @@
 #include <stdio.h>
 #include <string.h>
 
-ssize_t writer(const char *msg) { return (ft_write(1, msg, ft_strlen(msg))); }
+void print_list(t_list *head) {
+  t_list *current = head;
+  for (size_t i = 0; current != NULL; i++) {
+    printf("Node %ld: data->%s\tnext->%p\n", i, (char *)current->data,
+           current->next);
+    current = current->next;
+  }
+}
 
 int main() {
-  writer("=== Libasm ===\n\n");
-
+  printf(" _ _ _\n");
+  printf("| (_) |\n");
+  printf("| |_| |__   __ _ ___ _ __ ___\n");
+  printf("| | | '_ \\/  `  / __| '_ ` _ \\\n");
+  printf("| | | |_) | (_| \\__ \\ | | | | |\n");
+  printf("|_|_|_.__/ \\__,_|___/_| |_| |_|\n");
+  ;
   char msg[100];
-  writer("=== Testing ft_read() ===\nEnter a message: ");
+  ft_write(1, "\n=== Testing ft_read() ===\n", 27);
+  ft_write(1, "Enter a message : ", 18);
+
   ft_read(0, msg, 100);
-
-  writer("\n=== Testing ft_write() ==\n");
-  ft_write(1, msg, ft_strlen(msg));
-
-  writer("\n=== Testing ft_strlen() ==\n");
   size_t len = ft_strlen(msg);
-  writer("Len: ");
-  printf("%d\n", len);
+  if (len > 0 && msg[len - 1] == '\n') {
+    msg[len - 1] = '\0';
+  }
 
-  writer("\n=== Testing ft_strcpy() ==\n");
+  printf("\n=== Testing ft_write() ===\n");
+  ft_write(1, msg, ft_strlen(msg));
+  printf("\n");
+
+  printf("\n=== Testing ft_strlen() ===\n");
+  len = ft_strlen(msg);
+  printf("Len: ");
+  printf("%ld\n", len);
+
+  printf("\n=== Testing ft_strcpy() ===\n");
   char dst[50];
   ft_strcpy(dst, msg);
-  writer("Copied string: ");
-  writer(dst);
+  printf("Copied string: %s\n", dst);
 
-  char *str = "Hello, World!";
-  writer("\n=== Testing ft_strcmp() ==\nTest string: ");
-  printf("%s\n", str);
-  writer("Our string: ");
-  writer(msg);
-  int res = ft_strcmp(str, msg);
+  printf("\n=== Testing ft_strcmp() ==\n");
+  printf("Test string:\t|%s|\n", "Hello, World!");
+  printf("Our string:\t|%s|\n", msg);
+  int res = ft_strcmp("Hello, World!", msg);
 
-  int std_result = strcmp(str, msg);
-  int ft_result = ft_strcmp(str, msg);
-  writer("strcmp: ");
-  printf("%d\n", std_result);
-  writer("ft_strcmp: ");
-  printf("%d\n", ft_result);
+  int std_result = strcmp("Hello, World!", msg);
+  int ft_result = ft_strcmp("Hello, World!", msg);
+  printf("strcmp:\t\t%d\n", std_result);
+  printf("ft_strcmp:\t%d\n", ft_result);
 
-  writer("\n=== Testing ft_strdup ===\n");
+  printf("\n=== Testing ft_strdup ===\n");
   char *duped = ft_strdup(msg);
-  writer("Output: ");
-  writer(duped);
-
-  return 0;
+  printf("Output: %s", duped);
+  free(duped);
 }

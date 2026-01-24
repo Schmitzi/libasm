@@ -1,5 +1,5 @@
 # Targets
-TARGET := libasm.a
+NAME := libasm.a
 BIN := src/main.c
 BIN_BONUS := src/main_bonus.c
 
@@ -34,12 +34,12 @@ OBJ = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(FILES)))
 OBJ_B = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(BONUS_FILES)))
 
 # Default target
-all: $(TARGET)
+all: $(NAME)
 
 # Bonus target - adds bonus objects to library
-bonus: $(TARGET) $(OBJ_B)
+bonus: $(NAME) $(OBJ_B)
 	@echo -e "\n$(YELLOW)=== Adding Bonus to Archive ===$(RESET)"
-	@$(AR) $(TARGET) $(OBJ_B)
+	@$(AR) $(NAME) $(OBJ_B)
 	@echo -e "$(GREEN) === Bonus added ===$(RESET)"
 
 # Create obj directory
@@ -53,20 +53,27 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.asm | $(OBJ_DIR)
 	@echo -e "$(GREEN) === .o files compiled ===$(RESET)"
 
 # Create library with regular objects
-$(TARGET): $(OBJ)
+$(NAME): $(OBJ)
 	@echo -e "\n$(YELLOW)=== Creating Archive ===$(RESET)"
 	@$(AR) $@ $^
 	@echo -e "$(GREEN) === Archive created ===$(RESET)"
 
 # Run
-run: $(TARGET)
-	@gcc -g $(BIN) $(TARGET) -o libasm
+run: $(NAME)
+	@gcc -g $(BIN) $(NAME) -o libasm
 	@./libasm
 
 # Clean build artifacts
 clean:
-	@echo -e "$(RED)\n === Removing old files ===\n$(RESET)"
-	@rm -f $(TARGET) libasm libasm_bonus
+	@echo -e "$(RED)\n === Removing .o files ===\n$(RESET)"
+	@rm -rf $(OBJ_DIR)
+	@echo -e "$(GREEN)┌────────────────────────┐"
+	@echo -e "│    ✓ Clean complete    │"
+	@echo -e "└────────────────────────┘$(RESET)"
+
+fclean:
+	@echo -e "$(RED)\n === Removing .o and binary files ===\n$(RESET)"
+	@rm -f $(NAME) libasm libasm_bonus
 	@rm -rf $(OBJ_DIR)
 	@echo -e "$(GREEN)┌────────────────────────┐"
 	@echo -e "│    ✓ Clean complete    │"
@@ -76,20 +83,18 @@ clean:
 re: clean all
 
 # Test the functions
-test: $(TARGET)
+test: $(NAME)
 	@echo -e "\n$(YELLOW)=== Testing Regular Functions ===$(RESET)"
-	@gcc -g $(BIN) $(TARGET) -o libasm
-	@./libasm
+	@gcc -g $(BIN) $(NAME) -o libasm
 
 test_bonus: bonus
 	@echo -e "\n$(YELLOW)=== Testing Bonus Functions ===$(RESET)"
-	@gcc -g $(BIN_BONUS) $(TARGET) -o libasm_bonus
-	@./libasm_bonus
+	@gcc -g $(BIN_BONUS) $(NAME) -o libasm_bonus
 
 # Help target
 help:
 	@echo -e "┌────────────────────────────┐"
-	@echo -e "│     $(TARGET) Makefile        │"
+	@echo -e "│     $(NAME) Makefile        │"
 	@echo -e "└────────────────────────────┘"
 	@echo -e "Usage:"
 	@echo -e "  make           - Build library (mandatory only)"

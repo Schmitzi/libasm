@@ -6,6 +6,15 @@
 #include <stdlib.h>
 #include <sys/types.h>
 
+#define RED "\e[0;91m"
+#define BLUE "\e[0;94m"
+#define GREEN "\e[0;92m"
+#define YELLOW "\e[0;33m"
+#define WHITE "\e[0;97m"
+#define BOLD "\e[1m"
+#define U_LINE "\e[4m"
+#define RESET "\e[0m"
+
 typedef struct s_list {
   void *data;          // pointer to the data
   struct s_list *next; // pointer to next node
