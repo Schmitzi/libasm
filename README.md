@@ -222,3 +222,13 @@ ld -m elf_i386 -s -o hello hello.o
 - [NASM Documentation](https://www.nasm.us/doc/)
 - [x86-64 System V ABI](https://refspecs.linuxbase.org/elf/x86_64-abi-0.99.pdf)
 - [Intel x86 Instruction Reference](https://www.felixcloutier.com/x86/)
+
+## License & Academic Integrity
+
+This project is licensed under the [MIT License](LICENSE).
+
+> **Note for 42 students:** This repository is public as part of my personal
+> portfolio. You are welcome to read it for conceptual understanding, but
+> submitting any part of this code as your own work violates the 42 Academic
+> Integrity Policy and defeats the purpose of the exercise. The struggle *is*
+> the learning — especially in assembly.

@@ -34,9 +34,8 @@ int main() {
   printf("\n");
 
   printf("\n=== Testing ft_strlen() ===\n");
-  len = ft_strlen(msg);
-  printf("Len: ");
-  printf("%ld\n", len);
+  printf("strlen:\t\t%ld\n", strlen(msg));
+  printf("ft_strlen:\t%ld\n", ft_strlen(msg));
 
   printf("\n=== Testing ft_strcpy() ===\n");
   char dst[50];

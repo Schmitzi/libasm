@@ -1,7 +1,7 @@
 # Targets
 NAME := libasm.a
-BIN := src/main.c
-BIN_BONUS := bonus/main.c
+MAIN := src/main.c
+MAIN_BONUS := bonus/main.c
 
 # Colours
 RED		=	\e[0;91m
@@ -28,8 +28,8 @@ BONUS_FILES := ft_atoi_base ft_list_push_front ft_list_size ft_list_sort ft_list
 SRC_DIR = src/
 BONUS_DIR = bonus/
 
-SRC = $(addprefix $(SRC_DIR), $(addsuffix .asm, $(FILES)))
-SRC_B = $(addprefix $(BONUS_DIR), $(addsuffix .asm, $(BONUS_FILES)))
+SRC = $(addprefix $(SRC_DIR), $(addsuffix .s, $(FILES)))
+SRC_B = $(addprefix $(BONUS_DIR), $(addsuffix .s, $(BONUS_FILES)))
 
 OBJ_DIR	= obj/
 OBJ = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(FILES)))
@@ -52,12 +52,12 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
 # Compile assembly files from src/
-$(OBJ_DIR)%.o: $(SRC_DIR)%.asm | $(OBJ_DIR)
+$(OBJ_DIR)%.o: $(SRC_DIR)%.s | $(OBJ_DIR)
 	@$(ASM) $(ASM_FLAGS) $< -o $@
 	@echo "$(GREEN)  ✓$(RESET) $<"
 
 # Compile assembly files from bonus/
-$(OBJ_DIR)%.o: $(BONUS_DIR)%.asm | $(OBJ_DIR)
+$(OBJ_DIR)%.o: $(BONUS_DIR)%.s | $(OBJ_DIR)
 	@$(ASM) $(ASM_FLAGS) $< -o $@
 	@echo "$(GREEN)  ✓$(RESET) $<"
 
@@ -66,10 +66,6 @@ $(NAME): $(OBJ)
 	@echo "$(YELLOW)=== Creating Archive ===$(RESET)"
 	@$(AR) $@ $^
 	@echo "$(GREEN) === Archive created ===$(RESET)"
-
-# Run
-run: test
-	@./libasm
 
 # Clean build artifacts
 clean:
@@ -80,7 +76,7 @@ clean:
 	@echo "└────────────────────────┘$(RESET)"
 
 fclean:
-	@echo "$(RED)\n === Removing .o and binary files ===\n$(RESET)"
+	@echo "$(RED)\n === Removing .o and MAINary files ===\n$(RESET)"
 	@rm -f $(NAME) libasm libasm_bonus .bonus
 	@rm -rf $(OBJ_DIR)
 	@echo "$(GREEN)┌────────────────────────┐"
@@ -92,21 +88,23 @@ re: clean all
 
 # Test the functions
 test: libasm
+	@./libasm
 
-libasm: $(NAME) $(BIN)
-	@echo "\n$(YELLOW)=== Testing Mandatory Functions ===$(RESET)"
-	@gcc -g $(BIN) $(NAME) -o libasm
+libasm: $(NAME) $(MAIN)
+	@echo "\n$(YELLOW)=== Creating ./libasm ===$(RESET)"
+	@gcc -g $(MAIN) -o libasm -L. -lasm
 
 test_bonus: libasm_bonus
+	@./libasm_bonus
 
-libasm_bonus: .bonus $(BIN_BONUS)
+libasm_bonus: $(NAME) $(MAIN_BONUS)
 	@echo "\n$(YELLOW)=== Testing Bonus Functions ===$(RESET)"
-	@gcc -g $(BIN_BONUS) $(NAME) -o libasm_bonus
+	@gcc -g $(MAIN_BONUS) -o libasm_bonus -L. -lasm
 
 # Help target
 help:
 	@echo "┌────────────────────────────┐"
-	@echo "│     $(NAME) Makefile        │"
+	@echo "│     $(NAME) Makefile       │"
 	@echo "└────────────────────────────┘"
 	@echo "Usage:"
 	@echo "  make           - Build library (mandatory only)"
@@ -117,4 +115,4 @@ help:
 	@echo "  make clean     - Remove build artifacts"
 	@echo "  make re        - Rebuild everything"
 
-.PHONY: all run clean re help fclean
+.PHONY: all run clean re help fclean test libasm test_bonus libasm_bonus help
