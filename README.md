@@ -1,8 +1,6 @@
 # libasm
 
-42 Mastery Project - Assembly Language
-
-## Project Requirements
+Rewriting common C Functions in x86_64 Intel Assembly
 
 ### Constraints
 
