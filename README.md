@@ -5,7 +5,6 @@ Rewriting common C Functions in x86_64 Intel Assembly
 ### Constraints
 
 - Written in 64-bit Assembly using [Intel Syntax](https://en.wikipedia.org/wiki/X86_assembly_language)
-- No inline ASM - only `.s` files
 - Must follow the [x86-64 Calling Convention](https://en.wikipedia.org/wiki/X86_calling_conventions)
 - No `-no-pie` compilation flag (Position Independent Executable required)
 
@@ -139,6 +138,16 @@ loop:
 
 ## x86-64 Calling Convention (System V AMD64 ABI)
 
+### Note
+
+Four 32-bit data registers are used for arithmetic, logical, and other operations. These 32-bit registers can be used in three ways
+
+- *As complete 32-bit data registers*: `rax`, `rbx`, `rcx`, `rdx`.
+
+- *Lower halves of the 32-bit registers can be used as four 16-bit data registers*: `ax`, `bx`, `cx` and `dx`.
+
+- *Lower and higher halves of the above-mentioned four 16-bit registers can be used as eight 8-bit data registers*: `ah`, `al`, `bh`, `bl`, `ch`, `cl`, `dh`, and `dl`.
+
 ### Parameter Passing
 
 Arguments are passed in registers (in order): `rdi`, `rsi`, `rdx`, `rcx`, `r8`, `r9`
@@ -149,13 +158,17 @@ Returned in `rax`
 
 ### Caller-Saved Registers (volatile)
 
+These registers will get mangled when a `syscall` or `extern function` (e.g malloc) is called. Any data in these registers will be lost. These registers should be `pushed` at the start and `popped` at the end of the function.
+
 `rax`, `rdi`, `rsi`, `rdx`, `rcx`, `r8`, `r9`, `r10`, `r11`
 
 ### Callee-Saved Registers (non-volatile)
 
+These registers will not be changed.
+
 `rbx`, `rbp`, `r12`, `r13`, `r14`, `r15`
 
----
+<br>
 
 ## Quick Tips
 

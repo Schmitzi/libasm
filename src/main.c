@@ -2,15 +2,6 @@
 #include <stdio.h>
 #include <string.h>
 
-void print_list(t_list *head) {
-  t_list *current = head;
-  for (size_t i = 0; current != NULL; i++) {
-    printf("Node %ld: data->%s\tnext->%p\n", i, (char *)current->data,
-           current->next);
-    current = current->next;
-  }
-}
-
 int main() {
   printf(" _ _ _\n");
   printf("| (_) |\n");
