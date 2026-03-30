@@ -87,18 +87,19 @@ fclean:
 re: clean all
 
 # Test the functions
-test: libasm
+test: bin
 	@./libasm
 
-libasm: $(NAME) $(MAIN)
+bin: $(NAME) $(MAIN)
 	@echo "\n$(YELLOW)=== Creating ./libasm ===$(RESET)"
 	@gcc -g $(MAIN) -o libasm -L. -lasm
 
-test_bonus: libasm_bonus
+test_bonus: bin_bonus
+	@echo "\n$(YELLOW)=== Testing Bonus Functions ===$(RESET)"
 	@./libasm_bonus
 
-libasm_bonus: $(NAME) $(MAIN_BONUS)
-	@echo "\n$(YELLOW)=== Testing Bonus Functions ===$(RESET)"
+bin_bonus: $(NAME) $(MAIN_BONUS)
+	@echo "\n$(YELLOW)=== Creating ./libasm_bonus ===$(RESET)"
 	@gcc -g $(MAIN_BONUS) -o libasm_bonus -L. -lasm
 
 # Help target
@@ -107,12 +108,14 @@ help:
 	@echo "│     $(NAME) Makefile       │"
 	@echo "└────────────────────────────┘"
 	@echo "Usage:"
-	@echo "  make           - Build library (mandatory only)"
-	@echo "  make bonus     - Build library with bonus"
-	@echo "  make run       - Build and run"
-	@echo "  make test      - Test regular functions"
-	@echo "  make test_bonus- Test bonus functions"
-	@echo "  make clean     - Remove build artifacts"
-	@echo "  make re        - Rebuild everything"
+	@echo "  make           	- Build library (mandatory only)"
+	@echo "  make bonus     	- Build library with bonus"
+	@echo "  make run       	- Build and run"
+	@echo "  make test      	- Test regular functions"
+	@echo "  make test_bonus	- Test bonus functions"
+	@echo "  make bin       	- Compile mandatory bin"
+	@echo "  make bonus_bin   	- Compile bonus bin"
+	@echo "  make clean     	- Remove build artifacts"
+	@echo "  make re        	- Rebuild everything"
 
-.PHONY: all run clean re help fclean test libasm test_bonus libasm_bonus help
+.PHONY: all run clean re help fclean test bin test_bonus bin_bonus help

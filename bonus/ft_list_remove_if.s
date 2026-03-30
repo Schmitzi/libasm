@@ -21,6 +21,7 @@ ft_list_remove_if:
     push    r15
     push    rbx
     push    rbp
+    sub     rsp, 8          ; Align stack
     mov     r12, rdi        ; Save pointer to begin_list
     mov     r13, rsi        ; Save pointer to data_ref
     mov     r14, rdx        ; Save pointer to cmp function
@@ -42,12 +43,12 @@ ft_list_remove_if:
 
 .remove_node:
     mov     r9, [rbx+8]     ; R9 = current->next
-    push    r9              ; Protect r9
+    mov     [rsp], r9       ; Protect r9 in scratch space
     mov     rdi, [rbx]      ; Rdi = current->data
     call    r15             ; Call free_fct on current->data
     mov     rdi, rbx        ; rdi = current
     call    free WRT ..plt  ; Free(current)
-    pop     r9              ; Restore r9 from stack
+    mov     r9, [rsp]       ; Restore r9 from scratch space
     test    rbp, rbp        ; If prev == NULL
     jz      .update_head 
     mov     [rbp+8], r9     ; Move next->next to current->next
@@ -61,6 +62,7 @@ ft_list_remove_if:
     jmp     .loop
 
 .done:
+    add     rsp, 8          ; Align stack
     pop     rbp             ; Restore registers
     pop     rbx
     pop     r15

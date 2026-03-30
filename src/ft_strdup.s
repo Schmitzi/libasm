@@ -22,8 +22,6 @@ ft_strdup:
     push    r12             ; Save callee-saved registers
     push    r13
     push    rbx
-    sub     rsp, 8          ; Align stack (2 pushes = 16 bytes, need 8 more)
-    
     mov     r12, rdi        ; Save original pointer
     xor     r13, r13        ; Length counter
     jmp     .len
@@ -60,7 +58,6 @@ ft_strdup:
     ; rax already contains the malloc'd pointer
 
 .cleanup:
-    add     rsp, 8          ; Restore stack
     pop     rbx
     pop     r13
     pop     r12

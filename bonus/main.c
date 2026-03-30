@@ -46,7 +46,6 @@ int main() {
   printf("Test string:\t|%s|\n", "Hello, World!");
   printf("Our string:\t|%s|\n", msg);
   int res = ft_strcmp("Hello, World!", msg);
-
   int std_result = strcmp("Hello, World!", msg);
   int ft_result = ft_strcmp("Hello, World!", msg);
   printf("strcmp:\t\t%d\n", std_result);
@@ -68,28 +67,28 @@ int main() {
 
   printf("=== Testing ft_atoi_base ===\n");
   res = ft_atoi_base("123", "0123456789");
-  printf("Input: 123\tBase: 0123456789\n");
-  printf("Should be: 123\tResult: %d\n\n", res);
+  printf("Input: 123\tBase:\t0123456789\n");
+  printf("Should be:\t123\nResult:\t\t%d\n\n", res);
 
   res = ft_atoi_base("-123", "0123456789");
-  printf("Input: -123\tBase: 0123456789\n");
-  printf("Should be: -123\tResult: %d\n\n", res);
+  printf("Input:\t-123\tBase:\t0123456789\n");
+  printf("Should be:\t-123\nResult:\t\t%d\n\n", res);
 
   res = ft_atoi_base("    +42", "0123456789");
-  printf("Input:    +42\tBase: 0123456789\n");
-  printf("Should be: 42\tResult: %d\n\n", res);
+  printf("Input:\t    +42\tBase:\t0123456789\n");
+  printf("Should be:\t42\nResult:\t\t%d\n\n", res);
 
   res = ft_atoi_base("101", "01");
-  printf("Input: 101\tBase: 01\n");
-  printf("Should be: 5\tResult: %d\n\n", res);
+  printf("Input:\t101\tBase:\t01\n");
+  printf("Should be:\t5\nResult:\t\t%d\n\n", res);
 
   res = ft_atoi_base("123", "0");
-  printf("Input: 123\tBase: 0\n");
-  printf("Should be: 0 (error: invalid base)\tResult: %d\n\n", res);
+  printf("Input: 123\tBase:\t0\n");
+  printf("Should be:\t0 (error: invalid base)\nResult:\t\t%d\n\n", res);
 
   res = ft_atoi_base("123", "01234567889");
-  printf("Input: 123\tBase: 01234567889\n");
-  printf("Should be: 0 (error: duplicate in base)\tResult: %d\n\n", res);
+  printf("Input: 123\tBase:\t01234567889\n");
+  printf("Should be:\t0 (error: duplicate in base)\nResult:\t\t%d\n\n", res);
 
   printf("=== Testing ft_list_push_front ===\n");
   t_list *head = NULL;
@@ -119,7 +118,7 @@ int main() {
   t_list *current = head;
   int position = 0;
   while (current != NULL) {
-    printf("  Node %d: data='%s', next=%p\n", position, (char *)current->data,
+    printf("Node %ld: data->%s\tnext->%p\n", position, (char *)current->data,
            (void *)current->next);
     current = current->next;
     position++;

@@ -15,8 +15,8 @@ ft_strcmp:
     xor rax, rax ; Zero the rax register out
 
 .loop:
-    mov al, [rsi]   ; Move *s1 to al (lower 8 bits of rax) 
-    cmp al, [rdi]   ; Compare al to *s2
+    mov al, [rsi]   ; Move *s2 to al (lower 8 bits of rax) 
+    cmp al, [rdi]   ; Compare al to *s1
     jne .not_equal  ; Jump if Not Equal
     cmp al, 0       ; Compare al to '\0'
     je .equal       ; Jump if Equal

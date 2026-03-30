@@ -36,7 +36,6 @@ int main() {
   printf("\n=== Testing ft_strcmp() ==\n");
   printf("Test string:\t|%s|\n", "Hello, World!");
   printf("Our string:\t|%s|\n", msg);
-  int res = ft_strcmp("Hello, World!", msg);
 
   int std_result = strcmp("Hello, World!", msg);
   int ft_result = ft_strcmp("Hello, World!", msg);
