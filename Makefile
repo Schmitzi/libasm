@@ -74,7 +74,7 @@ clean:
 
 fclean:
 	@echo "$(RED)\n === Removing .o and binary files ===\n$(RESET)"
-	@rm -f $(NAME) libasm libasm_bonus .bonus
+	@rm -f $(NAME) libasm libasm_bonus
 	@rm -rf $(OBJ_DIR)
 	@echo "$(GREEN)┌────────────────────────┐"
 	@echo "│    ✓ Clean complete    │"
@@ -111,7 +111,7 @@ help:
 	@echo "  make test      	- Test regular functions"
 	@echo "  make test_bonus	- Test bonus functions"
 	@echo "  make bin       	- Compile mandatory bin"
-	@echo "  make bonus_bin   	- Compile bonus bin"
+	@echo "  make bin_bonus   	- Compile bonus bin"
 	@echo "  make clean     	- Remove build artifacts"
 	@echo "  make re        	- Rebuild everything"
 
