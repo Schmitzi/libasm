@@ -38,14 +38,11 @@ OBJ_B = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(BONUS_FILES)))
 # Default target
 all: $(NAME)
 
-# Bonus target - adds bonus objects to library
-bonus: .bonus
-
-.bonus: $(NAME) $(OBJ_B)
-	@echo "\n$(YELLOW)=== Adding Bonus to Archive ===$(RESET)"
-	@$(AR) $(NAME) $(OBJ_B)
-	@echo "$(GREEN) === Bonus added ===$(RESET)"
-	@touch .bonus
+# Bonus target
+bonus: fclean $(OBJ) $(OBJ_B)
+	@echo "\n$(YELLOW)\n=== Creating Bonus Archive ===$(RESET)"
+	@$(AR) $(NAME) $(OBJ) $(OBJ_B)
+	@echo "$(GREEN)\n=== Bonus archive created ===\n$(RESET)"
 
 # Create obj directory
 $(OBJ_DIR):
@@ -63,9 +60,9 @@ $(OBJ_DIR)%.o: $(BONUS_DIR)%.s | $(OBJ_DIR)
 
 # Create library with regular objects
 $(NAME): $(OBJ)
-	@echo "$(YELLOW)=== Creating Archive ===$(RESET)"
+	@echo "$(YELLOW)\n=== Creating Archive ===$(RESET)"
 	@$(AR) $@ $^
-	@echo "$(GREEN) === Archive created ===$(RESET)"
+	@echo "$(GREEN)\n=== Archive created ===\n$(RESET)"
 
 # Clean build artifacts
 clean:
@@ -73,15 +70,15 @@ clean:
 	@rm -rf $(OBJ_DIR)
 	@echo "$(GREEN)┌────────────────────────┐"
 	@echo "│    ✓ Clean complete    │"
-	@echo "└────────────────────────┘$(RESET)"
+	@echo "└────────────────────────┘\n$(RESET)"
 
 fclean:
-	@echo "$(RED)\n === Removing .o and MAINary files ===\n$(RESET)"
+	@echo "$(RED)\n === Removing .o and binary files ===\n$(RESET)"
 	@rm -f $(NAME) libasm libasm_bonus .bonus
 	@rm -rf $(OBJ_DIR)
 	@echo "$(GREEN)┌────────────────────────┐"
 	@echo "│    ✓ Clean complete    │"
-	@echo "└────────────────────────┘$(RESET)"
+	@echo "└────────────────────────┘$(RESET)\n"
 
 # Rebuild everything
 re: clean all

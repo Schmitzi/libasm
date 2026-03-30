@@ -118,7 +118,7 @@ int main() {
   t_list *current = head;
   int position = 0;
   while (current != NULL) {
-    printf("Node %ld: data->%s\tnext->%p\n", position, (char *)current->data,
+    printf("Node %d: data->%s\tnext->%p\n", position, (char *)current->data,
            (void *)current->next);
     current = current->next;
     position++;
