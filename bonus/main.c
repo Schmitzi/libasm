@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#define SIZE 100
+
 void print_list(t_list *head) {
   t_list *current = head;
   for (size_t i = 0; current != NULL; i++) {
@@ -18,12 +20,17 @@ int main() {
   printf("| | | '_ \\/  `  / __| '_ ` _ \\\n");
   printf("| | | |_) | (_| \\__ \\ | | | | |\n");
   printf("|_|_|_.__/ \\__,_|___/_| |_| |_|\n");
-  ;
-  char msg[100];
+
+
+  char msg[SIZE];
+  char *test_str = "Hello, World!";
+
   ft_write(1, "\n=== Testing ft_read() ===\n", 27);
   ft_write(1, "Enter a message : ", 18);
 
-  ft_read(0, msg, 100);
+  ssize_t bytes_read = ft_read(0, msg, SIZE - 1);
+  if (bytes_read > 0)
+    msg[bytes_read] = '\0';
   size_t len = ft_strlen(msg);
   if (len > 0 && msg[len - 1] == '\n') {
     msg[len - 1] = '\0';
@@ -38,16 +45,17 @@ int main() {
   printf("ft_strlen:\t%ld\n", ft_strlen(msg));
 
   printf("\n=== Testing ft_strcpy() ===\n");
-  char dst[50];
+  char dst[SIZE];
   ft_strcpy(dst, msg);
   printf("Copied string: %s\n", dst);
 
   printf("\n=== Testing ft_strcmp() ==\n");
+
   printf("Test string:\t|%s|\n", "Hello, World!");
   printf("Our string:\t|%s|\n", msg);
-  int res = ft_strcmp("Hello, World!", msg);
-  int std_result = strcmp("Hello, World!", msg);
-  int ft_result = ft_strcmp("Hello, World!", msg);
+  int std_result = strcmp(test_str, msg);
+  int ft_result = ft_strcmp(test_str, msg);
+
   printf("strcmp:\t\t%d\n", std_result);
   printf("ft_strcmp:\t%d\n", ft_result);
 
@@ -66,7 +74,7 @@ int main() {
   printf("=================================\n\n");
 
   printf("=== Testing ft_atoi_base ===\n");
-  res = ft_atoi_base("123", "0123456789");
+  int res = ft_atoi_base("123", "0123456789");
   printf("Input: 123\tBase:\t0123456789\n");
   printf("Should be:\t123\nResult:\t\t%d\n\n", res);
 
